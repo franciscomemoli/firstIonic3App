@@ -1,14 +1,41 @@
 <ion-header>
   <ion-navbar>
     <ion-title>
-      Ionic Blank
+      Ionic3Firebase
     </ion-title>
   </ion-navbar>
 </ion-header>
-
 <ion-content padding>
-  The world is your oyster.
-  <p>
-    If you get lost, the <a href="http://ionicframework.com/docs/v2">docs</a> will be your guide.
-  </p>
+    <ion-title>Login</ion-title>
+    <ion-row>
+        <ion-item>
+            <div *ngIf="auth.currentUser">current user is {{auth.currentUser}}</div>
+        </ion-item>
+    </ion-row>
+    <form [formGroup]="loginForm" novalidate>
+        <ion-row>
+            <ion-item>
+                <ion-label for="email"></ion-label>
+                <ion-input type="email" value="" placeholder="Email" formControlName="email"></ion-input>
+            </ion-item>
+        </ion-row>
+        <ion-row>
+            <ion-item>
+                <ion-label for="password"></ion-label>
+                <ion-input type="password" placeholder="Password" formControlName="password"></ion-input>
+            </ion-item>
+        </ion-row>
+    </form>
+    <ion-row>
+        <button (click)="login()" ion-button block>Log in</button>
+    </ion-row>
+    <ion-row> 
+        <button [navPush]="signupPage" ion-button block>Sign up</button>
+    </ion-row>
+    <ion-row> 
+        <button (click)="logout()" ion-button block>Log out</button>
+    </ion-row>
+    <ion-row> 
+        <button [navPush]="resetPasswordPage" ion-button block>Reset password</button>
+    </ion-row>
 </ion-content>
