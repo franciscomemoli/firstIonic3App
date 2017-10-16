@@ -25,7 +25,17 @@ export class HomePage {
         this.email = this.loginForm.controls['email'];     
         this.password = this.loginForm.controls['password'];     
   }
- 
+  signInWithFacebook(): void {
+    this.auth.signInWithFacebook().subscribe(data => {
+      console.log(data)
+    }, error=>{             //Added next lines for handling unknown users
+    console.log(error);
+    if (error.code == 'auth/user-not-found')
+    {
+      alert('User not found');
+    }
+    });
+  }
   login(): void { 
         if(this.loginForm.valid) {
           console.log(this.email.value, this.password.value);

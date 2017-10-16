@@ -13,8 +13,15 @@ import { SignupPage } from '../pages/signup/signup';
 import { ResetPasswordPage } from '../pages/reset-password/reset-password'; 
 //Ower providers
 import { AuthProvider } from '../providers/auth/auth';
-import { ENV } from '../../config/environment-dev';
+import { Facebook } from '@ionic-native/facebook';
 
+export const firebaseConfig = {
+    apiKey: "**********",
+    authDomain: "****************",
+    databaseURL: "****************",
+    storageBucket: "************",
+    messagingSenderId: "***********"
+};
 @NgModule({
   declarations: [
     MyApp,
@@ -25,7 +32,7 @@ import { ENV } from '../../config/environment-dev';
   imports: [
     BrowserModule,
     IonicModule.forRoot(MyApp),
-    AngularFireModule.initializeApp(ENV.firebaseConfig),
+    AngularFireModule.initializeApp(firebaseConfig),
     AngularFireAuthModule
   ],
   bootstrap: [IonicApp],
@@ -39,7 +46,8 @@ import { ENV } from '../../config/environment-dev';
     StatusBar,
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
-    AuthProvider
+    AuthProvider,
+    Facebook
   ]
 })
 export class AppModule {}

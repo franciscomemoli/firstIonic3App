@@ -1,13 +1,25 @@
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { Observable } from "rxjs/Observable";
- 
+import * as firebase from 'firebase/app';
+import { Facebook } from '@ionic-native/facebook';
+
 @Injectable()
 export class AuthProvider {
    
-  constructor(private af: AngularFireAuth) {
+  constructor(private af: AngularFireAuth, private fb: Facebook) {
   }
-   
+  signInWithFacebook() {
+    return Observable.create(observer => {
+      this.fb.login(['email', 'public_profile']).then(res => {
+        const facebookCredential = firebase.auth.FacebookAuthProvider.credential(res.authResponse.accessToken);
+        this.af.auth.signInWithCredential(facebookCredential);
+        observer.next(facebookCredential);
+      }).catch((error) => {
+        observer.error(error);
+      });
+    });
+  }
   loginWithEmail(credentials) {
     return Observable.create(observer => {
       this.af.auth.signInWithEmailAndPassword(credentials.email, credentials.password
