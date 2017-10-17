@@ -14,13 +14,14 @@ import { ResetPasswordPage } from '../pages/reset-password/reset-password';
 //Ower providers
 import { AuthProvider } from '../providers/auth/auth';
 import { Facebook } from '@ionic-native/facebook';
+import { GooglePlus } from '@ionic-native/google-plus';
 
 export const firebaseConfig = {
-    apiKey: "**********",
-    authDomain: "****************",
-    databaseURL: "****************",
-    storageBucket: "************",
-    messagingSenderId: "***********"
+    apiKey: "*********************",
+    authDomain: "*********************",
+    databaseURL: "*********************",
+    storageBucket: "*********************",
+    messagingSenderId: "*********************"
 };
 @NgModule({
   declarations: [
@@ -47,7 +48,8 @@ export const firebaseConfig = {
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     AuthProvider,
-    Facebook
+    Facebook,
+    GooglePlus
   ]
 })
 export class AppModule {}

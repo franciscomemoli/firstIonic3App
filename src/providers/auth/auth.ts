@@ -4,10 +4,14 @@ import { Observable } from "rxjs/Observable";
 import * as firebase from 'firebase/app';
 import { Facebook } from '@ionic-native/facebook';
 
+import { Platform } from 'ionic-angular';
+import { GooglePlus } from '@ionic-native/google-plus';
+import { auth } from 'firebase'; 
+
 @Injectable()
 export class AuthProvider {
-   
-  constructor(private af: AngularFireAuth, private fb: Facebook) {
+     
+  constructor(private af: AngularFireAuth, private fb: Facebook ,private platform: Platform, private googlePlus: GooglePlus) {
   }
   signInWithFacebook() {
     return Observable.create(observer => {
@@ -18,6 +22,39 @@ export class AuthProvider {
       }).catch((error) => {
         observer.error(error);
       });
+    });
+  }
+  loginWithGoogle() {
+    return Observable.create(observer => {
+      if (this.platform.is('cordova')) {
+       return this.googlePlus.login({
+          'webClientId':'*********************'
+        }).then(userData => {
+          var token = userData.idToken;
+          const googleCredential = auth.GoogleAuthProvider.credential(token, null);
+          firebase.auth().signInWithCredential(googleCredential).then((success)=>{
+            observer.next(success);
+          }).catch(error => {
+            //console.log(error);
+            observer.error(error);
+          });
+        }).catch(error => {
+            //console.log(error);
+            observer.error(error);
+        });
+      }
+      // else {
+      //  console.log()
+      //  return this.af.auth.login({
+      //    provider: AuthProviders.GooglePlus,
+      //    method: AuthMethods.Popup
+      //    }).then(()=>{
+      //      observer.next();
+      //    }).catch(error => {
+      //      //console.log(error);
+      //      observer.error(error);
+      //  });
+      //}
     });
   }
   loginWithEmail(credentials) {

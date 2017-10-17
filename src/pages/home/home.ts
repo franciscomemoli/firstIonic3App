@@ -25,6 +25,13 @@ export class HomePage {
         this.email = this.loginForm.controls['email'];     
         this.password = this.loginForm.controls['password'];     
   }
+  loginWithGoogle(): void{
+    this.auth.loginWithGoogle().subscribe((success) => {
+      console.log(success);
+    }, err => {
+      console.log(err);
+    });
+  }
   signInWithFacebook(): void {
     this.auth.signInWithFacebook().subscribe(data => {
       console.log(data)
